@@ -27,3 +27,21 @@ A new fun party game!
 6. One must be able to set the option to automatically take random number of rounds ( 5 and 6 are 2 options for same action )
 
 
+## Game state map
+
+1. Create a room / Join a room.
+2. Wait in the lobby area until
+  i. All the players have entered the game ( By checking if total count of players in room matches with room settings )
+  ii. All players have entered their songs.
+  iii. Game creator can start the game if and only if all the current players in the room have entered their songs.
+3. Once the game starts, keep track of the number of rounds for each game.
+4. For each round in a game, 
+  i. Pick a random song from the pool of songs given by players.
+  ii. Play the song.
+  iii. Collect guesses from user on who they think has that song.
+  iv. Wait until every player has voted. 
+  v. Show the results, i.e, whose song it was and how much score each player gets for their guess.
+  vi. Add the individual score to the game scoreboard.
+  vii. Proceed to next round if present.
+5. Once all rounds are complete, show the complete game's leaderboard and announce the winner.
+7. Provide options to either exit the game ( Move players to homepage or state 1 )or continue another set of game in same room ( Move players to state 2 )
