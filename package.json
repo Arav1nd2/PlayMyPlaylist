@@ -1,0 +1,11 @@
+{
+  "name": "PlayMyPlaylist",
+  "version": "1.0.0",
+  "description": "A new fun party game!",
+  "main": "index.js",
+  "repository": "git@github.com:Arav1nd2/PlayMyPlaylist.git",
+  "author": "Aravind Srinivasan <aravindsrinivasan2000@gmail.com>",
+  "license": "MIT",
+  "workspaces": ["server", "web"],
+  "private": true
+}
