@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSocket } from '../hooks/socket';
 
 function HomePage(props) {
-    console.log("See what i got", props);
+    const socket = useSocket();
+    console.log("Got the socket connection also", socket);
     return (
         <div>
             <h1>Hello from home page!</h1>
