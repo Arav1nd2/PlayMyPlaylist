@@ -2,10 +2,15 @@ const express = require("express");
 const http = require("http");
 const { Server: SocketServer } = require("socket.io");
 const cors = require("cors");
+const {
+  JOIN_ROOM_EVENT,
+  NEW_USER_JOINED_ROOM_EVENT,
+  SERVER_CONNECT_EVENT,
+} = require("@pmp/constants");
 
 const app = express();
 const server = http.createServer(app);
-const ws = new SocketServer(server, {
+const io = new SocketServer(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
@@ -22,9 +27,21 @@ app.get("/", (_, res) =>
   })
 );
 
-ws.on("connection", (socket) => {
+io.on(SERVER_CONNECT_EVENT, (socket) => {
   console.log("Socket connections are also working!");
+  attachListeners(socket);
 });
+
+function attachListeners(socket) {
+  const ROOM_NAME = "HELLO_WORLD";
+  socket.on(JOIN_ROOM_EVENT, () => {
+    console.log("Trying to join a room!");
+    socket.join(ROOM_NAME);
+    socket.broadcast
+      .to(ROOM_NAME)
+      .emit(NEW_USER_JOINED_ROOM_EVENT, { user: socket.id });
+  });
+}
 
 const PORT = process.env.PORT || 3000;
 

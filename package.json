@@ -6,6 +6,10 @@
   "repository": "git@github.com:Arav1nd2/PlayMyPlaylist.git",
   "author": "Aravind Srinivasan <aravindsrinivasan2000@gmail.com>",
   "license": "MIT",
-  "workspaces": ["server", "web"],
+  "workspaces": [
+    "server",
+    "web",
+    "constants"
+  ],
   "private": true
 }
