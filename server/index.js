@@ -2,12 +2,13 @@ const express = require("express");
 const http = require("http");
 const { Server: SocketServer } = require("socket.io");
 const cors = require("cors");
-const {
-  JOIN_ROOM_EVENT,
-  NEW_USER_JOINED_ROOM_EVENT,
-  SERVER_CONNECT_EVENT,
-} = require("@pmp/constants");
+const dotEnv = require("dotenv");
+const { SERVER_CONNECT_EVENT } = require("@pmp/constants");
+const api = require("./api");
+const sockets = require("./sockets");
 
+// Start app config
+dotEnv.config();
 const app = express();
 const server = http.createServer(app);
 const io = new SocketServer(server, {
@@ -20,28 +21,12 @@ const io = new SocketServer(server, {
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (_, res) =>
-  res.json({
-    ok: true,
-    message: "You have hit PlayMyPlaylist API v1.0.0",
-  })
-);
+app.use("/api", api);
 
 io.on(SERVER_CONNECT_EVENT, (socket) => {
   console.log("Socket connections are also working!");
-  attachListeners(socket);
+  sockets(socket);
 });
-
-function attachListeners(socket) {
-  const ROOM_NAME = "HELLO_WORLD";
-  socket.on(JOIN_ROOM_EVENT, () => {
-    console.log("Trying to join a room!");
-    socket.join(ROOM_NAME);
-    socket.broadcast
-      .to(ROOM_NAME)
-      .emit(NEW_USER_JOINED_ROOM_EVENT, { user: socket.id });
-  });
-}
 
 const PORT = process.env.PORT || 3000;
 
