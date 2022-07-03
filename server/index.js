@@ -7,8 +7,9 @@ const { SERVER_CONNECT_EVENT } = require("@pmp/constants");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const { PrismaClient } = require("@prisma/client");
-const api = require("./api");
+const buildAPI = require("./api");
 const sockets = require("./sockets");
+const errorHandler = require("./lib/errors/middleware");
 
 // Start app config
 dotEnv.config();
@@ -33,7 +34,7 @@ app.use(
   })
 );
 
-app.use(async (req, res, next) => {
+app.use(async (req, _, next) => {
   if (req.session.isNew) {
     const newPlayer = await prisma.player.create({
       data: {
@@ -64,12 +65,14 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.use("/api", api);
+app.use("/api", buildAPI(prisma));
 
 io.on(SERVER_CONNECT_EVENT, (socket) => {
   console.log("Socket connections are also working!");
   sockets(socket);
 });
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
