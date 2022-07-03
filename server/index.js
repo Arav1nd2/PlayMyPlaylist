@@ -42,7 +42,11 @@ app.use(async (req, _, next) => {
         avatar: "temp",
       },
     });
-    req.session.user = newPlayer;
+    req.session.user = {
+      id: newPlayer.id,
+      room: newPlayer.roomId,
+      avatar: newPlayer.avatar,
+    };
     return next();
   }
   if (req.session.isPopulated) {
@@ -57,9 +61,17 @@ app.use(async (req, _, next) => {
           avatar: "temp",
         },
       });
-      req.session.user = newPlayer;
+      req.session.user = {
+        id: newPlayer.id,
+        room: newPlayer.roomId,
+        avatar: newPlayer.avatar,
+      };
     } else {
-      req.session.user = playerFromDB;
+      req.session.user = {
+        id: playerFromDB.id,
+        avatar: playerFromDB.avatar,
+        room: playerFromDB.roomId,
+      };
     }
   }
   next();
