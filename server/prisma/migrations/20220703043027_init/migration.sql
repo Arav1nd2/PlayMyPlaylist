@@ -12,9 +12,9 @@ CREATE TABLE "Room" (
 -- CreateTable
 CREATE TABLE "Player" (
     "id" SERIAL NOT NULL,
-    "uid" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "avatar" TEXT NOT NULL,
+    "roomId" INTEGER,
 
     CONSTRAINT "Player_pkey" PRIMARY KEY ("id")
 );
@@ -45,10 +45,10 @@ CREATE TABLE "Score" (
 CREATE UNIQUE INDEX "Room_code_key" ON "Room"("code");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Player_uid_key" ON "Player"("uid");
-
--- CreateIndex
 CREATE INDEX "Score_roomId_playerId_idx" ON "Score"("roomId", "playerId");
+
+-- AddForeignKey
+ALTER TABLE "Player" ADD CONSTRAINT "Player_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES "Room"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Song" ADD CONSTRAINT "Song_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "Player"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

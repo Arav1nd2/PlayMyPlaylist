@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,21 +8,23 @@ datasource db {
 }
 
 model Room {
-  id         Int     @id @default(autoincrement())
-  code       String  @unique @default(uuid())
+  id         Int      @id @default(autoincrement())
+  code       String   @unique @default(uuid())
   maxPlayers Int
   maxRounds  Int
   maxSongs   Int
+  Player     Player[]
   Score      Score[]
 }
 
 model Player {
   id     Int     @id @default(autoincrement())
-  uid    String  @unique
   name   String
   avatar String
-  songs  Song[]
+  roomId Int?
+  room   Room?   @relation(fields: [roomId], references: [id])
   scores Score[]
+  songs  Song[]
 }
 
 model Song {
@@ -34,17 +33,17 @@ model Song {
   thumbnail   String
   songUrl     String
   description String
-  player      Player @relation(fields: [playerId], references: [id])
   playerId    Int
+  player      Player @relation(fields: [playerId], references: [id])
 }
 
 model Score {
   id       Int    @id @default(autoincrement())
   score    Int
-  player   Player @relation(fields: [playerId], references: [id])
   playerId Int
-  room     Room   @relation(fields: [roomId], references: [id])
   roomId   Int
+  player   Player @relation(fields: [playerId], references: [id])
+  room     Room   @relation(fields: [roomId], references: [id])
 
   @@index([roomId, playerId])
 }
