@@ -17,14 +17,16 @@ export const SocketProvider = ({ children }) => {
     joinedRoom: false,
   });
   useEffect(() => {
-    socket.on(CLIENT_CONNECT_EVENT, () => {
-      dispatch({ type: "connect" });
-    });
-    socket.on(DISCONNECT_EVENT, () => {
-      dispatch({ type: "disconnect" });
-    });
-    socket.on(NEW_USER_JOINED_ROOM_EVENT, (obj) => {
-      console.log("New user also joined", obj);
+    fetch("http://localhost:3000/api/ping").then(() => {
+      socket.on(CLIENT_CONNECT_EVENT, () => {
+        dispatch({ type: "connect" });
+      });
+      socket.on(DISCONNECT_EVENT, () => {
+        dispatch({ type: "disconnect" });
+      });
+      socket.on(NEW_USER_JOINED_ROOM_EVENT, (obj) => {
+        console.log("New user also joined", obj);
+      });
     });
     return () => {
       socket.off(CLIENT_CONNECT_EVENT);

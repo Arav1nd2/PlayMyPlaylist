@@ -4,8 +4,6 @@ const { Server: SocketServer } = require("socket.io");
 const cors = require("cors");
 const dotEnv = require("dotenv");
 const { SERVER_CONNECT_EVENT } = require("@pmp/constants");
-const cookieParser = require("cookie-parser");
-const cookieSession = require("cookie-session");
 const { PrismaClient } = require("@prisma/client");
 const buildAPI = require("./api");
 const sockets = require("./sockets");
@@ -25,57 +23,6 @@ const io = new SocketServer(server, {
 
 app.use(cors());
 app.use(express.json());
-app.use(
-  cookieSession({
-    name: "pmpSid",
-    httpOnly: true,
-    keys: [process.env.COOKIE_SECRET],
-    maxAge: 3 * 24 * 60 * 60 * 1000, // Cookie would live for 3 days
-  })
-);
-
-app.use(async (req, _, next) => {
-  if (req.session.isNew) {
-    const newPlayer = await prisma.player.create({
-      data: {
-        name: "Temp",
-        avatar: "temp",
-      },
-    });
-    req.session.user = {
-      id: newPlayer.id,
-      room: newPlayer.roomId,
-      avatar: newPlayer.avatar,
-    };
-    return next();
-  }
-  if (req.session.isPopulated) {
-    const sessionPlayer = req.session.user;
-    const playerFromDB = await prisma.player.findUnique({
-      where: { id: sessionPlayer.id },
-    });
-    if (!playerFromDB) {
-      const newPlayer = await prisma.player.create({
-        data: {
-          name: "Temp",
-          avatar: "temp",
-        },
-      });
-      req.session.user = {
-        id: newPlayer.id,
-        room: newPlayer.roomId,
-        avatar: newPlayer.avatar,
-      };
-    } else {
-      req.session.user = {
-        id: playerFromDB.id,
-        avatar: playerFromDB.avatar,
-        room: playerFromDB.roomId,
-      };
-    }
-  }
-  next();
-});
 
 app.use("/api", buildAPI(prisma));
 
