@@ -1,20 +1,16 @@
 const { Router } = require("express");
-const _get = require("lodash/get");
-const _set = require("lodash/set");
-const HTTPException = require("../lib/errors");
+const buildRoomRouter = require("./rooms");
 
 module.exports = function (db) {
   const router = Router();
-  router.get("/ping", (_, res) =>
+  router.get("/ping", async (_, res) => {
     res.json({
       ok: true,
       message: "Pong! Things look good, proceed to create / join a room.",
-    })
-  );
+    });
+  });
+
+  router.use("/room", buildRoomRouter(db));
 
   return router;
 };
-
-function generateURL(avatar) {
-  return `https://google.com?image=${avatar}`;
-}

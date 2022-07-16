@@ -3,6 +3,8 @@ import {
   DISCONNECT_EVENT,
   JOIN_ROOM_EVENT,
   NEW_USER_JOINED_ROOM_EVENT,
+  ROOM_ALREADY_FULL,
+  ROOM_NOT_FOUND,
 } from "@pmp/constants";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import io from "socket.io-client";
@@ -26,6 +28,12 @@ export const SocketProvider = ({ children }) => {
       });
       socket.on(NEW_USER_JOINED_ROOM_EVENT, (obj) => {
         console.log("New user also joined", obj);
+      });
+      socket.on(ROOM_ALREADY_FULL, () => {
+        console.log("Room is full buddy!");
+      });
+      socket.on(ROOM_NOT_FOUND, () => {
+        console.log("Room not found!");
       });
     });
     return () => {
@@ -55,7 +63,7 @@ const gameReducer = (state, action) => {
     case "disconnect":
       return { ...state, socket: null, status: false };
     case "join-room":
-      socket.emit(JOIN_ROOM_EVENT, "Hello!");
+      socket.emit(JOIN_ROOM_EVENT, action.payload);
       return { ...state, joinedRoom: true };
     default:
       return state;
