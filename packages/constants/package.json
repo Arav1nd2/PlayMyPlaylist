@@ -1,0 +1,16 @@
+{
+  "name": "@pmp/constants",
+  "version": "1.0.0",
+  "description": "The constants package for pmp",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "author": "Aravind Srinivasan",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  }
+}

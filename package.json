@@ -1,0 +1,20 @@
+{
+  "name": "playmyplaylist",
+  "version": "1.0.0",
+  "description": "A fun party game!",
+  "main": "index.js",
+  "author": "Aravind Srinivasan <aravindsrinivasan2000@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "private": true,
+  "devDependencies": {
+    "lerna": "^6.5.1"
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "dev": "lerna run --parallel dev"
+  }
+}
