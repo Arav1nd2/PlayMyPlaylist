@@ -1,6 +1,6 @@
 export interface State {
-    name: string,
-    value: string
+  name: string;
+  value: string;
 }
 
 export type StateMachine = (state: State) => void;

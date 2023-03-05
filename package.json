@@ -15,6 +15,7 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "dev": "lerna run --parallel dev"
+    "dev": "lerna run --parallel dev",
+    "lint:fix": "lerna run lint:fix"
   }
 }

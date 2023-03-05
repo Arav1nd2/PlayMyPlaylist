@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
-      <h1>Hello world</h1>
+      <h1>Hello world {count}</h1>
+      <button></button>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
