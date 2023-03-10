@@ -1,6 +1,7 @@
 import { State, StateMachine } from '@pmp/constants';
 import express from 'express';
 import { httpLogger, logger } from './services/logger';
+import config from './services/config';
 
 const state: State = {
     name: 'helo',
@@ -19,7 +20,11 @@ app.get('/', (_, res) => {
     });
 });
 
-app.listen(8888, () => {
-    logger.info('server started at port 8888');
+app.listen(config.get('port'), () => {
+    logger.info(
+        `Server started at port ${config.get('port')} in ${config.get(
+            'env',
+        )} mode`,
+    );
     stateMachine(state);
 });

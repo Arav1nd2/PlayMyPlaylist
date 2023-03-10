@@ -1,15 +1,22 @@
 import winston from 'winston';
 
+const { timestamp, colorize, combine, align, printf } = winston.format;
+const { Console } = winston.transports;
+
 const logger = winston.createLogger({
     transports: [
-        new winston.transports.Console({
+        new Console({
             handleExceptions: true,
+            level: 'silly',
         }),
     ],
-    format: winston.format.combine(
-        winston.format.colorize({ all: true }),
-        winston.format.splat(),
-        winston.format.simple(),
+    format: combine(
+        colorize({ all: true }),
+        timestamp({
+            format: 'YYYY-MM-DD hh:mm:ss.SSS A',
+        }),
+        align(),
+        printf((info) => `[${info.timestamp}] ${info.level}: ${info.message}`),
     ),
 });
 
