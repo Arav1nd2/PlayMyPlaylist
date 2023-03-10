@@ -1,14 +1,16 @@
 import { useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0);
+    const [count, setCount] = useState(0);
 
-  return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello world {count}</h1>
-      <button></button>
-    </div>
-  );
+    return (
+        <div>
+            <h1 className="text-3xl font-bold underline">
+                Hello world {count}
+            </h1>
+            <button></button>
+        </div>
+    );
 }
 
 export default App;

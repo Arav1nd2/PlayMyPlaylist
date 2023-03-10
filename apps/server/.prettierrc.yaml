@@ -1,6 +1,6 @@
-tabWidth: 2
+tabWidth: 4
 singleQuote: true
-trailingComma: "all"
+trailingComma: 'all'
 semi: true
 printWidth": 120
 bracketSpacing: true
