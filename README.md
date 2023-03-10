@@ -6,6 +6,10 @@ A new fun party game!
 
 ![High level diagram](./docs/HLD.png)
 
+## Database schema design
+
+![Entity Relationship diagram](./docs/ERD.svg)
+
 ## Features - aka - User stories
 
 ### User
