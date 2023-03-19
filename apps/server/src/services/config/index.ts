@@ -62,6 +62,14 @@ const config = convict({
             default: '',
         },
     },
+    client: {
+        host: {
+            doc: 'Application client hostname',
+            format: String,
+            env: 'CLIENT_HOST',
+            default: 'http://localhost:5437/',
+        },
+    },
 });
 
 config.validate({ allowed: 'strict' });
